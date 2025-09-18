@@ -28,6 +28,7 @@ class InitialConditionSource(Enum):
     cds: str = "cds"
     gfs: str = "gfs"
     hrmip: str = "hrmip"
+    netcdf: str = "netcdf"
 
 
 # https://docs.pydantic.dev/usage/types/#discriminated-unions-aka-tagged-unions

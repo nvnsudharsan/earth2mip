@@ -21,7 +21,7 @@ import numpy as np
 import torch
 
 from earth2mip import config, regrid, schema, time_loop
-from earth2mip.initial_conditions import base, cds, gfs, hdf5, hrmip, ifs
+from earth2mip.initial_conditions import base, cds, gfs, hdf5, hrmip, ifs, netcdf
 
 __all__ = [
     "get_data_source",
@@ -30,6 +30,7 @@ __all__ = [
     "gfs",
     "hrmip",
     "hdf5",
+    "netcdf",
 ]
 
 
@@ -50,6 +51,10 @@ def get_data_source(
         return ifs.DataSource(channel_names)
     elif initial_condition_source == schema.InitialConditionSource.hrmip:
         return hrmip.HDFPlSl(path=config.ERA5_HDF5)
+    elif initial_condition_source == schema.InitialConditionSource.netcdf:
+        if not netcdf:
+            raise ValueError("netcdf path must be provided when using netcdf initial condition source")
+        return netcdf.NetCDFDataSource(netcdf, channel_names=channel_names)
     else:
         raise NotImplementedError(initial_condition_source)
 
